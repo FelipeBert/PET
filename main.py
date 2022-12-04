@@ -3,4 +3,5 @@ def fatorial(num1):
         num1 *= i - 1
     return num1
 
-print(fatorial(10))
+num = int(input("Digite um número: "))
+print(fatorial(num))
