@@ -1,8 +1,13 @@
-numPar = 0
+horaInicial = int(input("Digita hora de inicio do jogo: "))
+minutoInicial = int(input("Digita minuto de inicio do jogo: "))
+horaFinal = int(input("Digita hora de fim do jogo: "))
+minutoFinal = int(input("Digita minuto de fim do jogo: "))
 
-for i in range(5):
-    valor = int(input("Digite um valor: "))
-    if valor % 2 == 0:
-        numPar += 1
+tempoHoras = horaFinal - horaInicial
+tempoMinutos = minutoFinal - minutoInicial
 
-print("Usuario digitou {} numeros pares".format(numPar))
+if(tempoMinutos < 0):
+    tempoHoras -= 1
+    tempoMinutos = 60 + tempoMinutos
+
+print("O jogo durou {} horas e {} minutos".format(tempoHoras, tempoMinutos))
