@@ -28,7 +28,7 @@ def valorPagamento(valor, dias, pag_total, ncontas):
     else:
         if(valor <= 0):
             print("Valor invalido de prestação Tente Novamente!")
-            n_valor = int(input("Digite novamente o valor da fatura: "))
+            n_valor = float(input("Digite novamente o valor da fatura: "))
             valorPagamento(n_valor, n_dias, pag_total, ncontas)
         else:
             print("Número de dias invalidos Tente novamente!")
