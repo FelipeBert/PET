@@ -59,7 +59,7 @@ class Banco():
     
     def render(self, num):
         for i in self.contas:
-            if i.numero == num and self.contas.tipo == 2:
+            if i.numero == num and i.tipo == 2:
                 i.saldo = i.saldo + (0.01 * i.saldo)
                 return i.saldo
         return -1
