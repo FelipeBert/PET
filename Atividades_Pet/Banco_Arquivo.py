@@ -1,10 +1,9 @@
 import random
 
 class Conta():
-    def __init__(self, numConta, tipo):
+    def __init__(self, numConta):
         self.numero = numConta
         self.saldo = 0
-        self.tipo = tipo
 
     def deposite(self, valor):
         self.saldo = self.saldo + valor
@@ -16,6 +15,10 @@ class Conta():
         else:
             return -1
 
+class Poupanca(Conta):
+
+    def render(self, rende):
+        self.saldo = self.saldo + self.saldo*rende
 
 class Banco():
     def __init__(self, nome):
@@ -25,10 +28,16 @@ class Banco():
     def getNome(self):
         return self.nome
 
-    def criarConta(self, tipo):
+    def criarConta(self):
         num = random.randint(0, 1000)
-        c = Conta(num, tipo)
+        c = Conta(num)
         self.contas.append(c)
+        return num
+    
+    def criarPoupanca(self):
+        num = random.randint(0, 1000)
+        p = Poupanca(num)
+        self.contas.append(p)
         return num
 
     def consultaSaldo(self, numConta):
@@ -57,9 +66,9 @@ class Banco():
                 indice += 1
         return -1
     
-    def render(self, num):
+    def renderPoupanca(self, numConta, rend):
         for i in self.contas:
-            if i.numero == num and i.tipo == 2:
-                i.saldo = i.saldo + (0.01 * i.saldo)
-                return i.saldo
+            if i.numero == numConta and isinstance(i, Poupanca):
+                i.render(rend)
+                return True
         return -1

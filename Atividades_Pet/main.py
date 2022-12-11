@@ -16,7 +16,10 @@ while escolha > 0:
         # criar uma conta
         print("Criando Conta...")
         tipo = int(input("Digite o tipo da Conta: normal(1) ou poupança(2): "))
-        numConta = bancoUfrpe.criarConta(tipo)
+        if tipo == 1:
+            numConta = bancoUfrpe.criarConta()
+        else:
+             numConta = bancoUfrpe.criarPoupanca()
         print("Conta criada:", numConta)
     elif escolha == 2:
         print("Consultando Saldo...")
@@ -52,9 +55,8 @@ while escolha > 0:
     else:
         print("Rendendo na Poupança...")
         numConta = int(input("Digite o numero da conta: "))
-        x = bancoUfrpe.render(numConta)
-        if x != -1:
-            print("Novo valor de Saldo: ", x)
-        else:
+        rend = float(input("Digite a porcentagem que ira render: "))
+        x = bancoUfrpe.renderPoupanca(numConta, rend)
+        if x == -1:
             print("Conta não encontrada ou não é do tipo Poupança")
     escolha = int(input("digite a opção desejada:"))
