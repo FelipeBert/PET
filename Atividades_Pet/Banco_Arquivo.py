@@ -1,9 +1,10 @@
 import random
 
 class Conta():
-    def __init__(self, numConta):
+    def __init__(self, numConta, tipo):
         self.numero = numConta
         self.saldo = 0
+        self.tipo = tipo
 
     def deposite(self, valor):
         self.saldo = self.saldo + valor
@@ -24,9 +25,9 @@ class Banco():
     def getNome(self):
         return self.nome
 
-    def criarConta(self):
+    def criarConta(self, tipo):
         num = random.randint(0, 1000)
-        c = Conta(num)
+        c = Conta(num, tipo)
         self.contas.append(c)
         return num
 
@@ -47,8 +48,18 @@ class Banco():
                 conta.withdraw(valor)
 
     def remover(self, n_conta):
-        for i in range(len(self.contas)):
-            if self.contas[i].numero == n_conta:
-                del self.contas[i]
+        indice = 0
+        for i in self.contas:
+            if i.numero == n_conta:
+                del self.contas[indice]
                 return 1
+            else:
+                indice += 1
+        return -1
+    
+    def render(self, num):
+        for i in self.contas:
+            if i.numero == num and self.contas.tipo == 2:
+                i.saldo = i.saldo + (0.01 * i.saldo)
+                return i.saldo
         return -1

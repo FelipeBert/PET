@@ -9,18 +9,23 @@ print("2 - Consultar Saldo Conta")
 print("3 - Depositar na Conta")
 print("4 - Realizar saque")
 print("5 - Remover Conta")
+print("6 - Render Juros")
 escolha = int(input("digite a opção desejada:"))
 while escolha > 0:
     if escolha == 1:
         # criar uma conta
         print("Criando Conta...")
-        numConta = bancoUfrpe.criarConta()
+        tipo = int(input("Digite o tipo da Conta: normal(1) ou poupança(2): "))
+        numConta = bancoUfrpe.criarConta(tipo)
         print("Conta criada:", numConta)
     elif escolha == 2:
         print("Consultando Saldo...")
         numConta = int(input("digite o numero da conta: "))
         saldo = bancoUfrpe.consultaSaldo(numConta)
-        print("o saldo da conta", numConta, "é", saldo, "R$")
+        if saldo == -1:
+            print("Conta não encontrada")
+        else:
+            print("o saldo da conta", numConta, "é", saldo, "R$")
     elif escolha == 3:
         print("Depositando Conta...")
         numConta = int(input("digite o numero da conta: "))
@@ -36,11 +41,20 @@ while escolha > 0:
             print("Saldo Insuficiente!")
         else:
             print("Você realizou um saque de {} reais".format(saldo))
-    else:
+    elif escolha == 5:
+        print("Removendo Conta...")
         numConta = int(input("Digite o numero da conta: "))
         s = bancoUfrpe.remover(numConta)
         if s == 1:
             print("Conta removida com sucesso!")
         else:
             print("Conta não encontrada")
+    else:
+        print("Rendendo na Poupança...")
+        numConta = int(input("Digite o numero da conta: "))
+        x = bancoUfrpe.render(numConta)
+        if x != -1:
+            print("Novo valor de Saldo: ", x)
+        else:
+            print("Conta não encontrada ou não é do tipo Poupança")
     escolha = int(input("digite a opção desejada:"))
