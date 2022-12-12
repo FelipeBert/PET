@@ -6,19 +6,37 @@ class Conta():
         self.saldo = 0
 
     def deposite(self, valor):
-        self.saldo = self.saldo + valor
-    
-    def withdraw(self, valor):
-        if self.saldo - valor >= 0:
-            self.saldo -= valor
-            return self.saldo
+        self.saldo = self.saldo + valor - valor*0.1
+
+    def sacar(self, valor):
+        if self.saldo >= valor:
+            self.saldo = self.saldo - valor
+            return True
         else:
-            return -1
+            return False
 
 class Poupanca(Conta):
 
-    def render(self, rende):
-        self.saldo = self.saldo + self.saldo*rende
+    def render(self):
+        self.saldo = self.saldo + self.saldo*0.01
+
+class Bonificada(Conta):
+
+    def __init__(self, numConta):
+        self.numero = numConta
+        self.saldo = 0
+        self.bonus = 0
+
+    def deposite(self, valor):
+        self.saldo = self.saldo + (valor*0.9)
+        self.bonus += (valor * 0.0001)
+
+    def rendimentoBonus(self):
+        self.saldo += self.bonus
+        self.bonus = 0
+
+    def consultaBonus(self):
+        return self.bonus
 
 class Banco():
     def __init__(self, nome):
@@ -33,11 +51,17 @@ class Banco():
         c = Conta(num)
         self.contas.append(c)
         return num
-    
+
     def criarPoupanca(self):
         num = random.randint(0, 1000)
         p = Poupanca(num)
         self.contas.append(p)
+        return num
+    
+    def criarBonificada(self):
+        num = random.randint(0, 1000)
+        b = Bonificada(num)
+        self.contas.append(b)
         return num
 
     def consultaSaldo(self, numConta):
@@ -48,27 +72,39 @@ class Banco():
 
     def depositar(self, numConta, valor):
         for conta in self.contas:
-            if conta.numero == numConta:
+            if conta.numero == numConta and isinstance(conta, Bonificada):
+                conta.deposite(valor)
+            else:
                 conta.deposite(valor)
 
-    def saque(self, numConta, valor):
+    def deletar(self, numConta):
         for conta in self.contas:
             if conta.numero == numConta:
-                conta.withdraw(valor)
+                self.contas.remove(conta)
+                return True
+        return False
 
-    def remover(self, n_conta):
-        indice = 0
-        for i in self.contas:
-            if i.numero == n_conta:
-                del self.contas[indice]
-                return 1
-            else:
-                indice += 1
-        return -1
-    
-    def renderPoupanca(self, numConta, rend):
+    def sacar(self, numConta, valor):
+        for conta in self.contas:
+            if conta.numero == numConta:
+                return conta.sacar(valor)
+
+    def renderPoupanca(self, numConta):
         for i in self.contas:
             if i.numero == numConta and isinstance(i, Poupanca):
-                i.render(rend)
+                i.render()
                 return True
-        return -1
+        return False
+
+    def renderBonus(self, numConta):
+        for i in self.contas:
+            if i.numero == numConta and isinstance(i, Bonificada):
+                i.rendimentoBonus()
+                return True
+        return False
+    
+    def consultaBonus(self, numConta):
+        for i in self.contas:
+            if i.numero == numConta and isinstance(i, Bonificada):
+                return i.consultaBonus()
+        return False
